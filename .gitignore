@@ -1,0 +1,14 @@
+.env
+.env*
+!.env.example
+.DS_Store
+node_modules
+.yarn-cache
+/stats.json
+.cache
+.git
+dist
+yarn-error.log
+
+# vscode settings
+/.vscode/

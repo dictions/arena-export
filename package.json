@@ -1,0 +1,21 @@
+{
+	"name": "arena-export",
+	"version": "1.0.0",
+	"description": "CSV exporter for are.na",
+	"main": "cli.js",
+	"repository": "git@github.com:dictions/arena-export.git",
+	"author": "Ian Hatcher-Williams <ian@gardener.nyc>",
+	"license": "MIT",
+	"private": false,
+	"scripts": {
+		"arena-export": "./cli.js"
+	},
+	"devDependencies": {
+		"eslint": "^7.11.0",
+		"prettier": "^2.1.2"
+	},
+	"dependencies": {
+		"axios": "^0.21.1",
+		"sade": "^1.7.4"
+	}
+}
