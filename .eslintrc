@@ -4,6 +4,7 @@
 		"es6": true
 	},
 	"parserOptions": {
+		"ecmaVersion": 8,
 		"ecmaFeatures": {
 			"modules": true
 		},
@@ -14,9 +15,7 @@
 	},
 	"extends": "eslint:recommended",
 	"rules": {
-		"comma-dangle": [
-			"off"
-		],
+		"comma-dangle": ["off"],
 		"indent-legacy": [
 			"warn",
 			"tab",
@@ -24,24 +23,11 @@
 				"SwitchCase": 1
 			}
 		],
-		"linebreak-style": [
-			"error",
-			"unix"
-		],
-		"quotes": [
-			"warn",
-			"single"
-		],
-		"no-console": [
-			"off"
-		],
-		"no-useless-escape": [
-			"off"
-		],
-		"semi": [
-			"warn",
-			"always"
-		],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["warn", "single"],
+		"no-console": ["off"],
+		"no-useless-escape": ["off"],
+		"semi": ["warn", "always"],
 		"no-unused-vars": [
 			"warn",
 			{
