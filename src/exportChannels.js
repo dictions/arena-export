@@ -17,8 +17,11 @@ module.exports = async (userId, outFileGlob, options) => {
 	let blocks = [];
 
 	try {
+		console.log(`[User ${userId}]: Fetching channels...`);
+
+		// TODO: make work with more than one page of channels
 		const {data} = await axios.get(
-			`http://api.are.na/v2/users/${userId}/channels?page=1&per=10000`,
+			`http://api.are.na/v2/users/${userId}/channels?page=1&per=100`,
 			{
 				headers,
 			},
@@ -30,20 +33,39 @@ module.exports = async (userId, outFileGlob, options) => {
 	}
 
 	try {
-		const blockRequests = channels.map(c =>
-			axios.get(
-				`http://api.are.na/v2/channels/${c.id}/contents?page=1&per=10000`,
-				{
-					headers,
-				},
-			),
-		);
+		const blockRequests = channels.map(c => {
+			let page = 1;
+			let per = 100;
+			let contents = [];
 
-		const blockResponses = await Promise.all(blockRequests);
+			return new Promise(resolve => {
+				const fetchNextPage = async () => {
+					console.log(
+						`[Channel ${c.title}]: Fetching blocks p.${page}...`,
+					);
 
-		const blocksByChannelIndex = blockResponses.map(
-			res => res.data.contents,
-		);
+					const {data} = await axios.get(
+						`http://api.are.na/v2/channels/${c.id}/contents?page=${page}&per=${per}`,
+						{
+							headers,
+						},
+					);
+
+					if (data.contents && data.contents.length) {
+						contents = [...contents, ...data.contents];
+						page++;
+
+						return fetchNextPage();
+					} else {
+						return resolve(contents);
+					}
+				};
+
+				return fetchNextPage();
+			});
+		});
+
+		const blocksByChannelIndex = await Promise.all(blockRequests);
 
 		blocks = reduce(
 			blocksByChannelIndex,
@@ -79,6 +101,6 @@ module.exports = async (userId, outFileGlob, options) => {
 	try {
 		await fs.outputFile(outFileGlob, JSON.stringify(blocksJson));
 	} catch (error) {
-		console.log(error);
+		error;
 	}
 };
